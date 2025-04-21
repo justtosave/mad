@@ -1,0 +1,66 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Responsive Containers',
+      home: ResponsiveContainers(),
+    );
+  }
+}
+
+class ResponsiveContainers extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Responsive UI')),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          bool isWide = constraints.maxWidth > 600;
+
+          List<Widget> containers = [
+            buildBox('Red Box', Colors.red),
+            buildBox('Green Box', Colors.green),
+            buildBox('Blue Box', Colors.blue),
+          ];
+
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: isWide
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: containers,
+                  )
+                : Column(
+                    children: containers.map((box) => Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: box,
+                    )).toList(),
+                  ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildBox(String label, Color color) {
+    return Expanded(
+      child: Container(
+        height: 120,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          label,
+          style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
